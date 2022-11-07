@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom"
-import { Card, Col, Button, Row, Tabs, Typography, Radio, Segmented } from 'antd';
+import { Card, Col, Button, Row, Tabs, Typography, Radio, Segmented, Badge } from 'antd';
 import { generate, presetDarkPalettes } from '@ant-design/colors';
 import '../css/style.css';
 
@@ -130,7 +130,7 @@ class Sesiones extends React.Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col>
+                    <Col offset={1}>
                         <Segmented style={{ background: 'none', color: 'white' }} onChange={value => this.filtrarPor(value)} options={['Todos', 'Acción', 'Historia', 'Superhéroes', 'Drama', 'Ciencia Ficción', 'Comedia', 'Romance', 'Infantil', 'Terror', 'Thriller', 'Familiar', 'Aventura', 'Animación', 'Crimen', 'Fantasía', 'Misterio']}></Segmented>
                     </Col>
                 </Row>
@@ -152,59 +152,114 @@ class Sesiones extends React.Component {
 
                         return (
                             <Col xs={20} offset={2} >
-                                <Card bordered={false} className='myCard' style={{ background: '#001529', color: "white" }} key={sesion.id} >
-                                    <Row gutter={[32, 32]}>
-                                        <Col span={6}>
-                                            {imagen}
-                                        </Col>
-                                        <Col span={18}>
-                                            <Row>
-                                                <Col span={22}>
-                                                    <h1 className='title'>{titulo}</h1>
-                                                </Col><Col>
-                                                    <img style={{ width: '2em' }} src={"https://bquafopvwextnjbwhevt.supabase.co/storage/v1/object/public/images/" + sesion.edad_minima_imagen} />
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col span={24}>
-                                                    <p>{sesion.sinopsis}</p>
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                            </Row>
-                                            <Row gutter={[8, 8]}>
-                                                <Col span={24}>
-                                                    <Card style={{ background: '#001529', color: "white" }} bordered={false} >
-                                                        {sesionesArray
-                                                            .filter(sesion => sesion[0] == this.state.sesiones_dia)
-                                                            .map(sesiones_dia_seleccionado => {
-                                                                return sesiones_dia_seleccionado[1]
-                                                                    .map(sesion_dia => {
-                                                                        const gridStyle = {
-                                                                            textAlign: 'center',
-                                                                            backgroundColor: '#001529'
-                                                                        };
-                                                                        return (
+                                {
+                                    sesion.is_estreno ? <Badge.Ribbon text='Estreno'><Card bordered={false} className='myCard' style={{ background: '#001529', color: "white" }} key={sesion.id} >
+                                        <Row gutter={[32, 32]}>
+                                            <Col span={6}>
+                                                {imagen}
+                                            </Col>
+                                            <Col span={18}>
+                                                <Row>
+                                                    <Col style={{marginRight: '1em'}}>
+                                                        <h1 className='title'>{titulo}</h1>
+                                                    </Col><Col>
+                                                        <img style={{ width: '2em' }} src={"https://bquafopvwextnjbwhevt.supabase.co/storage/v1/object/public/images/" + sesion.edad_minima_imagen} />
+                                                    </Col>
+                                                </Row>
+                                                <Row>
+                                                    <Col span={24}>
+                                                        <p>{sesion.sinopsis}</p>
+                                                    </Col>
+                                                </Row>
+                                                <Row>
+                                                </Row>
+                                                <Row gutter={[8, 8]}>
+                                                    <Col span={24}>
+                                                        <Card style={{ background: '#001529', color: "white" }} bordered={false} >
+                                                            {sesionesArray
+                                                                .filter(sesion => sesion[0] == this.state.sesiones_dia)
+                                                                .map(sesiones_dia_seleccionado => {
+                                                                    return sesiones_dia_seleccionado[1]
+                                                                        .map(sesion_dia => {
+                                                                            const gridStyle = {
+                                                                                textAlign: 'center',
+                                                                                backgroundColor: '#001529'
+                                                                            };
+                                                                            return (
 
-                                                                            <Card.Grid className='myCardGrid' style={gridStyle}>
-                                                                                <Link to={"/sesion/" + sesion_dia.id}>
-                                                                                    <div>
-                                                                                        <h2 className='title2'>{sesion_dia.hora}</h2>
-                                                                                        Sala {sesion_dia.sala}
-                                                                                    </div>
-                                                                                </Link>
-                                                                            </Card.Grid>
+                                                                                <Card.Grid className='myCardGrid' style={gridStyle}>
+                                                                                    <Link to={"/sesion/" + sesion_dia.id}>
+                                                                                        <div>
+                                                                                            <h2 className='title2'>{sesion_dia.hora}</h2>
+                                                                                            Sala {sesion_dia.sala}
+                                                                                        </div>
+                                                                                    </Link>
+                                                                                </Card.Grid>
 
-                                                                        );
-                                                                    })
-                                                            })
-                                                        }
-                                                    </Card>
-                                                </Col>
-                                            </Row>
-                                        </Col>
-                                    </Row>
-                                </Card>
+                                                                            );
+                                                                        })
+                                                                })
+                                                            }
+                                                        </Card>
+                                                    </Col>
+                                                </Row>
+                                            </Col>
+                                        </Row>
+                                    </Card></Badge.Ribbon> : <Card bordered={false} className='myCard' style={{ background: '#001529', color: "white" }} key={sesion.id} >
+                                        <Row gutter={[32, 32]}>
+                                            <Col span={6}>
+                                                {imagen}
+                                            </Col>
+                                            <Col span={18}>
+                                                <Row>
+                                                    <Col style={{marginRight: '1em'}}>
+                                                        <h1 className='title'>{titulo}</h1>
+                                                    </Col><Col>
+                                                        <img style={{ width: '2em' }} src={"https://bquafopvwextnjbwhevt.supabase.co/storage/v1/object/public/images/" + sesion.edad_minima_imagen} />
+                                                    </Col>
+                                                </Row>
+                                                <Row>
+                                                    <Col span={24}>
+                                                        <p>{sesion.sinopsis}</p>
+                                                    </Col>
+                                                </Row>
+                                                <Row>
+                                                </Row>
+                                                <Row gutter={[8, 8]}>
+                                                    <Col span={24}>
+                                                        <Card style={{ background: '#001529', color: "white" }} bordered={false} >
+                                                            {sesionesArray
+                                                                .filter(sesion => sesion[0] == this.state.sesiones_dia)
+                                                                .map(sesiones_dia_seleccionado => {
+                                                                    return sesiones_dia_seleccionado[1]
+                                                                        .map(sesion_dia => {
+                                                                            const gridStyle = {
+                                                                                textAlign: 'center',
+                                                                                backgroundColor: '#001529'
+                                                                            };
+                                                                            return (
+
+                                                                                <Card.Grid className='myCardGrid' style={gridStyle}>
+                                                                                    <Link to={"/sesion/" + sesion_dia.id}>
+                                                                                        <div>
+                                                                                            <h2 className='title2'>{sesion_dia.hora}</h2>
+                                                                                            Sala {sesion_dia.sala}
+                                                                                        </div>
+                                                                                    </Link>
+                                                                                </Card.Grid>
+
+                                                                            );
+                                                                        })
+                                                                })
+                                                            }
+                                                        </Card>
+                                                    </Col>
+                                                </Row>
+                                            </Col>
+                                        </Row>
+                                    </Card>
+                                }
+
                             </Col >
                         )
                     })
