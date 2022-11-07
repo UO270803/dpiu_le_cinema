@@ -1,7 +1,7 @@
 {
   "name": "supabase-react",
   "version": "0.1.0",
-  "homepage": "https://le_cinema.github.io/entradas_cine",
+  "homepage": "https://uo270803.github.io/dpiu_le_cinema",
   "private": true,
   "dependencies": {
     "@ant-design/colors": "^6.0.0",

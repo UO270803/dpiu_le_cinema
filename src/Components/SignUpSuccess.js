@@ -12,7 +12,7 @@ class SignUpSuccess extends React.Component {
             title={<Text style={{ color: 'white', fontSize: '2em' }}>Sign Up completado con éxito</Text>}
             subTitle={<Text style={{ color: 'white', fontSize: '1.5em' }}>Para poder hacer el Login deberás aceptar la invitación que has recibido en tu correo (revisar carpeta de spam)</Text>}
             extra={[
-                <Link to="/entradas_cine">
+                <Link to="/dpiu_le_cinema">
                     <Button type="primary" key="console">
                         Home
                     </Button>

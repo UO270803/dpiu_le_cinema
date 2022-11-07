@@ -32,7 +32,7 @@ class Paso_1 extends React.Component {
         console.log(i);
         if (this.clicked[i]) {
             this.clicked[i] = false;
-            this.imageClicable[i].current.src = "/entradas_cine/seat.png";
+            this.imageClicable[i].current.src = "/dpiu_le_cinema/seat.png";
 
             let carrito = this.state.carrito;
             let entrada = {
@@ -48,7 +48,7 @@ class Paso_1 extends React.Component {
         }
         else {
             this.clicked[i] = true;
-            this.imageClicable[i].current.src = "/entradas_cine/seat_active.png";
+            this.imageClicable[i].current.src = "/dpiu_le_cinema/seat_active.png";
             let carrito = this.state.carrito;
             let entrada = {
                 'fila': fila,
@@ -63,12 +63,12 @@ class Paso_1 extends React.Component {
     }
 
     mouseOver = (i) => {
-        this.imageClicable[i].current.src = "/entradas_cine/seat_active.png"
+        this.imageClicable[i].current.src = "/dpiu_le_cinema/seat_active.png"
     }
 
     mouseOut = (i) => {
         if (!this.clicked[i])
-            this.imageClicable[i].current.src = "/entradas_cine/seat.png"
+            this.imageClicable[i].current.src = "/dpiu_le_cinema/seat.png"
     }
 
     componentDidMount() {
@@ -211,7 +211,7 @@ class Paso_1 extends React.Component {
                                             }
                                             if (seat.free) {
                                                 return (<Tooltip title={fila + ' - ' + columna}><Col span={1}>
-                                                    <img ref={this.imageClicable[i]} src='/entradas_cine/seat.png'
+                                                    <img ref={this.imageClicable[i]} src='/dpiu_le_cinema/seat.png'
                                                         onClick={() => { this.chooseSeat(i, fila, columna) }}
                                                         onMouseOver={() => { this.mouseOver(i) }}
                                                         onMouseOut={() => { this.mouseOut(i) }} />
@@ -219,14 +219,14 @@ class Paso_1 extends React.Component {
                                             }
                                             else {
                                                 return (<Tooltip title={fila + ' - ' + columna}><Col span={1}>
-                                                    <img ref={this.imageClicable[i]} src='/entradas_cine/seat_ocuppied.png' />
+                                                    <img ref={this.imageClicable[i]} src='/dpiu_le_cinema/seat_ocuppied.png' />
                                                 </Col></Tooltip>)
                                             }
                                         })}
                                 {
                                     this.state.seats.length < 200 ?
                                         <></> :
-                                        <Col style={{ marginTop: '3em' }} span={24}><Text style={{ color: 'white', fontSize: '1.2em' }}><Row justify='space-between'><div>Butaca libre: <img src='/entradas_cine/seat.png' /></div> <div>Butaca seleccionada: <img src='/entradas_cine/seat_active.png' /></div><div> Butaca ocupada: <img src='/entradas_cine/seat_ocuppied.png' /></div></Row></Text></Col>
+                                        <Col style={{ marginTop: '3em' }} span={24}><Text style={{ color: 'white', fontSize: '1.2em' }}><Row justify='space-between'><div>Butaca libre: <img src='/dpiu_le_cinema/seat.png' /></div> <div>Butaca seleccionada: <img src='/dpiu_le_cinema/seat_active.png' /></div><div> Butaca ocupada: <img src='/dpiu_le_cinema/seat_ocuppied.png' /></div></Row></Text></Col>
                                 }
                             </Row>
 
