@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/dpiu_le_cinema/static/css/main.3c48d7d1.css",
-    "main.js": "/dpiu_le_cinema/static/js/main.f5579e38.js",
+    "main.js": "/dpiu_le_cinema/static/js/main.831f66a8.js",
     "index.html": "/dpiu_le_cinema/index.html",
     "main.3c48d7d1.css.map": "/dpiu_le_cinema/static/css/main.3c48d7d1.css.map",
-    "main.f5579e38.js.map": "/dpiu_le_cinema/static/js/main.f5579e38.js.map"
+    "main.831f66a8.js.map": "/dpiu_le_cinema/static/js/main.831f66a8.js.map"
   },
   "entrypoints": [
     "static/css/main.3c48d7d1.css",
-    "static/js/main.f5579e38.js"
+    "static/js/main.831f66a8.js"
   ]
 }
