@@ -80,28 +80,18 @@ class Paso_2 extends React.Component {
 
 
     render() {
-        let columns = [
-            {
-                title: 'Fila',
-                dataIndex: 'fila',
-            },
-            {
-                title: 'Columna',
-                dataIndex: 'columna',
-            },
-        ]
         const { Text } = Typography;
         const { Meta } = Card;
         return (
             <div>
-                <Row style={{ marginTop: '1em' }} justify='space-between' gutter={[2, 0]} >
+                <Row style={{ marginTop: '1em' }} justify='center' gutter={[2, 0]} >
                     {this.state.menus.map(menu => {
                         let imagen =
                             <img src={"https://bquafopvwextnjbwhevt.supabase.co/storage/v1/object/public/images/" + menu.imagen} />
 
 
                         return (
-                            <Col span={4} >
+                            <Col span={4} offset={1}>
                                 <Card
                                     cover={imagen
                                     }
