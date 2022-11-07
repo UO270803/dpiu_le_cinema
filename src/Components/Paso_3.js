@@ -60,7 +60,7 @@ class Paso_3 extends React.Component {
         });
         return (
             <div>
-                <Card bordered={false} className='myCard' style={{ background: colors[0], color: "white" }}>
+                <Card bordered={false} className='myCard' style={{color: "white" }}>
                     <Form name="basic" labelCol={{ span: 24 / 3 }} wrapperCol={{ span: 24 / 3 }}
                         initialValues={{ remember: true, }}
                         onFinish={values => this.sendLogin(values)} autoComplete="off">
