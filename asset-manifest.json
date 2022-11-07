@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/dpiu_le_cinema/static/css/main.6ecaeb2e.css",
+    "main.js": "/dpiu_le_cinema/static/js/main.41b658bf.js",
+    "index.html": "/dpiu_le_cinema/index.html",
+    "main.6ecaeb2e.css.map": "/dpiu_le_cinema/static/css/main.6ecaeb2e.css.map",
+    "main.41b658bf.js.map": "/dpiu_le_cinema/static/js/main.41b658bf.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6ecaeb2e.css",
+    "static/js/main.41b658bf.js"
+  ]
+}
