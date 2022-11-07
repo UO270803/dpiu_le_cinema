@@ -18,7 +18,7 @@ class Sesion extends React.Component {
         super(props)
         this.id = this.props.params.id;
         this.state = {
-            paso: 1,
+            paso: 0,
             carrito: [],
             titulo: '',
             dia: '',
