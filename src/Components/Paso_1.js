@@ -1,6 +1,6 @@
 import React from 'react';
 import withRouter from './withRouter';
-import { Typography, PageHeader, Table, Card, InputNumber, Space, Descriptions, Image, Row, Col, Form } from 'antd';
+import { Typography, Progress, PageHeader, Table, Card, InputNumber, Space, Descriptions, Image, Row, Col, Form, Divider, Tooltip } from 'antd';
 import { Button, notification } from 'antd';
 import { ShoppingOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { generate, presetDarkPalettes } from '@ant-design/colors';
@@ -15,12 +15,99 @@ class Paso_1 extends React.Component {
         this.state = {
             sesion: {},
             pelicula: {},
-            carrito: []
+            carrito: [],
+            seats: []
         };
+        
+        this.imageClicable = [];
+        let clicked = [];
+        for (var i = 0; i < 201; i++) {
+            clicked[i] = false;
+        }
+        this.clicked = clicked;
+    }
+
+
+    chooseSeat = (i, fila, columna) => {
+        console.log(i);
+        if (this.clicked[i]) {
+            this.clicked[i] = false;
+            this.imageClicable[i].current.src = "/entradas_cine/seat.png";
+
+            let carrito = this.state.carrito;
+            let entrada = {
+                'fila': fila,
+                'columna': columna
+            }
+            let index = carrito.indexOf(entrada);
+            carrito.splice(index, 1);
+
+            this.setState({
+                carrito: carrito
+            });
+        }
+        else {
+            this.clicked[i] = true;
+            this.imageClicable[i].current.src = "/entradas_cine/seat_active.png";
+            let carrito = this.state.carrito;
+            let entrada = {
+                'fila': fila,
+                'columna': columna
+            }
+            carrito.push(entrada);
+            this.setState({
+                carrito: carrito
+            });
+        }
+
+    }
+
+    mouseOver = (i) => {
+        this.imageClicable[i].current.src = "/entradas_cine/seat_active.png"
+    }
+
+    mouseOut = (i) => {
+        if (!this.clicked[i])
+            this.imageClicable[i].current.src = "/entradas_cine/seat.png"
     }
 
     componentDidMount() {
         this.sesionDetails();
+        this.checkSeats();
+    }
+
+    checkSeats = async () => {
+        let seats = this.state.seats;
+        for (let i = 1; i < 201; i++) {
+            let columna = i % 24;
+            columna = columna == 0 ? 24 : columna;
+            let fila = 1;
+            if (i > 24) {
+                let j = i;
+                while (j > 24) {
+                    fila++;
+                    j -= 24;
+                }
+            }
+
+            const { data, error } = await this.props.supabase
+                .from('entrada')
+                .select('id')
+                .eq('sesion_id', this.id)
+                .eq('fila', fila)
+                .eq('columna', columna);
+
+            if (data.length > 0 && error == null) {
+                seats[i] = { 'i': i, 'free': false };
+            }
+            else {
+                seats[i] = { 'i': i, 'free': true };
+            }
+            this.setState({
+                seats: seats
+            });
+        }
+
     }
 
     sesionDetails = async () => {
@@ -53,50 +140,8 @@ class Paso_1 extends React.Component {
 
     }
 
-    async addEntrada(values) {
-        let carrito = this.state.carrito;
-        let entrada = {
-            'fila': values.fila,
-            'columna': values.columna
-        }
-        let repetidas = this.state.carrito
-            .filter(entrada_en_lista => entrada_en_lista.fila == entrada.fila && entrada_en_lista.columna == entrada.columna);
-        let id = parseInt(this.id, 10);
-        if (repetidas.length == 0) {
-            const { data, error } = await this.props.supabase
-                .from('entrada')
-                .select('id')
-                .eq('sesion_id', id)
-                .eq('fila', entrada.fila)
-                .eq('columna', entrada.columna);
-
-            if (data.length == 0) {
-                carrito.push(entrada);
-                this.setState({
-                    carrito: carrito
-                });
-
-            }
-
-            else {
-                notification.error({
-                    message: 'Asiento ocupado',
-                    description:
-                        'Este asiento ya está ocupado. Por favor escoge otro',
-                });
-            }
-        }
-        else {
-            notification.error({
-                message: 'Asiento ya seleccionado',
-                description:
-                    'Ya has seleccionado este asiento. Por favor escoge otro.',
-            });
-        }
-
-    }
-
     siguientePaso = async () => {
+        console.log(this.state.carrito);
         if (this.state.carrito.length == 0) {
             notification.error({
                 message: 'Ningun asiento seleccionado',
@@ -133,61 +178,76 @@ class Paso_1 extends React.Component {
             return element;
         })
 
+        let mapa_butacas = [];
 
+        let filas = [1, 2, 3, 4, 5, 6, 7, 8]
 
+        for (var i = 1; i < 201; i++) {
+            mapa_butacas.push(i);
+        }
 
         return (
-            <Card className='myCard' style={{ background: '#001529', color: "white" }} bordered={false} >
-                <Row justify='space-around' gutter={[16, 32]}>
-                    <Col className='title2' span={24 / 3}>
-                        <Row gutter={[16, 32]}>
-                            <Col span={24}>
-                                {this.state.pelicula.titulo}
-                            </Col>
-                            <Form name="basic" labelCol={{ span: 18 }} wrapperCol={{ span: 6 }}
-                                size="Large"
-                                onFinish={values => this.addEntrada(values)} autoComplete="off">
-                                <Form.Item label="Fila" name="fila">
-                                    <InputNumber style={{ height: '50%' }} min={1} max={12} />
-                                </Form.Item>
-                                <Form.Item label="Columna" name="columna">
-                                    <InputNumber style={{ height: '50%' }} min={1} max={23} />
-                                </Form.Item>
-                                <Form.Item wrapperCol={{ sm: { offset: 8, span: 24 / 3 } }}  >
-                                    <Button htmlType="submit" size='large' type='primary'>
-                                        Añadir a carrito
-                                    </Button>
-                                </Form.Item>
-                            </Form>
-                            <Col span={24}>
-                                <Button size='large' type='primary' onClick={this.siguientePaso}>
-                                    Continuar
-                                </Button>
-                            </Col>
+            <div>
+                <Row>
 
+                    <Col xl={16} lg={12} offset={4}>
+                        <Divider style={{ color: 'white', borderTopColor: 'white', fontSize: '2em' }}>Pantalla</Divider>
+                        <Card className='myCard' style={{ background: '#001529', color: "white" }} bordered={false} >
+                            <Row gutter={[4, 4]} justify='center' align='top'>
+                                {
+                                    this.state.seats.length < 200 ?
+                                        <Progress percent={(this.state.seats.length / 200 * 100).toFixed()} status='active'></Progress> : this.state.seats.map(seat => {
+                                            let i = seat.i;
+                                            this.imageClicable[i] = React.createRef();
+                                            let columna = i % 24;
+                                            columna = columna == 0 ? 24 : columna;
+                                            let fila = 1;
+                                            if (i > 24) {
+                                                let j = i;
+                                                while (j > 24) {
+                                                    fila++;
+                                                    j -= 24;
+                                                }
+                                            }
+                                            if (seat.free) {
+                                                return (<Tooltip title={fila + ' - ' + columna}><Col span={1}>
+                                                    <img ref={this.imageClicable[i]} src='/entradas_cine/seat.png'
+                                                        onClick={() => { this.chooseSeat(i, fila, columna) }}
+                                                        onMouseOver={() => { this.mouseOver(i) }}
+                                                        onMouseOut={() => { this.mouseOut(i) }} />
+                                                </Col></Tooltip>)
+                                            }
+                                            else {
+                                                return (<Tooltip title={fila + ' - ' + columna}><Col span={1}>
+                                                    <img ref={this.imageClicable[i]} src='/entradas_cine/seat_ocuppied.png' />
+                                                </Col></Tooltip>)
+                                            }
+                                        })}
+                                {
+                                    this.state.seats.length < 200 ?
+                                        <></> :
+                                        <Col style={{ marginTop: '3em' }} span={24}><Text style={{ color: 'white', fontSize: '1.2em' }}><Row justify='space-between'><div>Butaca libre: <img src='/entradas_cine/seat.png' /></div> <div>Butaca seleccionada: <img src='/entradas_cine/seat_active.png' /></div><div> Butaca ocupada: <img src='/entradas_cine/seat_ocuppied.png' /></div></Row></Text></Col>
+                                }
+                            </Row>
+
+                        </Card>
+                    </Col>
+                </Row >
+                {
+                    this.state.seats.length < 200 ?
+                        <></> :
+                        <Row justify='space-between'>
+                            <Col span={12} offset={2}>
+                                <Text style={{ color: 'white', fontSize: '1.3em' }}><Text style={{ color: 'white', fontSize: '1.3em', fontWeight: 'bold' }}>Butacas seleccionadas:</Text> {this.state.carrito.map(butaca => {
+                                    return butaca.fila + ' - ' + butaca.columna + ', ';
+                                })}</Text>
+                            </Col>
+                            <Col span={6} offset={1}>
+                                <Button type='primary' size='large' onClick={this.siguientePaso}>Continuar</Button>
+                            </Col>
                         </Row>
-                    </Col>
-                    <Col className='title2' span={24 / 3}>
-                        <Row gutter={[16, 16]}>
-                            <Col span={24}>
-                                {this.state.sesion.hora}
-                            </Col>
-                            <Col span={24}>
-                                <Space>
-                                    <ShoppingCartOutlined />
-                                    <Text style={{ color: 'white' }} className='title3'>Carrito</Text>
-                                </Space>
-                            </Col>
-                            <Col span={24}>
-                                <Table columns={columns} dataSource={data} />
-                            </Col>
-                        </Row>
-                    </Col>
-                    <Col className='title2' span={24 / 3}>
-                        {this.state.sesion.dia}
-                    </Col>
-                </Row>
-            </Card>
+                }
+            </div>
         )
 
     }

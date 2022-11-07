@@ -21,8 +21,8 @@ class Paso_5 extends React.Component {
 
         return (<Result
             status="success"
-            title={<Text style={{ color: 'white' }} className='title2'>Compra realizada</Text>}
-            subTitle={<Text style={{ color: 'white' }} className='title3'>Para revisar la compra además de otras que hayas hecho haz click en el botón</Text>}
+            title={<Text style={{ color: 'white', fontSize: '2em' }}>Compra realizada</Text>}
+            subTitle={<Text style={{ color: 'white', fontSize: '1.5em' }}>Para revisar la compra además de otras que hayas hecho haz click en el botón</Text>}
             extra={[
                 <Link to="/carrito">
                     <Button type="primary" key="console">

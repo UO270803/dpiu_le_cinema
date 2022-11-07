@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom"
-import { Card, Col, Button, Row, Tabs, Typography, Radio, Form } from 'antd';
+import { Card, Col, Button, Row, Tabs, Typography, Radio, Segmented } from 'antd';
 import { generate, presetDarkPalettes } from '@ant-design/colors';
 import '../css/style.css';
 
@@ -76,11 +76,11 @@ class Sesiones extends React.Component {
         });
     }
 
-    filtrarPor = async (values) => {
+    filtrarPor = async (value) => {
         let sesiones = this.state.all_sesiones;
 
-        if (values.target.value != 'todos') {
-            sesiones = sesiones.filter(pelicula => pelicula[1].tipos.tipos.includes(values.target.value));
+        if (value != 'Todos') {
+            sesiones = sesiones.filter(pelicula => pelicula[1].tipos.tipos.includes(value));
             this.setState({
                 sesiones: sesiones
             })
@@ -131,28 +131,7 @@ class Sesiones extends React.Component {
                 </Row>
                 <Row>
                     <Col>
-                        <Text style={{ color: 'white' }} className='title3'>Filtrar: </Text>
-                        <Radio.Group size='medium' onChange={e => this.filtrarPor(e)}>
-                            <Radio.Button style={{ background: 'none', color: '#1890ff' }} value="todos">
-                                Todos</Radio.Button>
-                            <Radio.Button style={{ background: 'none', color: '#1890ff' }} value="Acción">
-                                Acción</Radio.Button>
-                            <Radio.Button style={{ background: 'none', color: '#1890ff' }} value="Superhéroes">Superhéroes</Radio.Button>
-                            <Radio.Button style={{ background: 'none', color: '#1890ff' }} value="Ciencia Ficción">Ciencia Ficción</Radio.Button>
-                            <Radio.Button style={{ background: 'none', color: '#1890ff' }} value="Drama">Drama</Radio.Button>
-                            <Radio.Button style={{ background: 'none', color: '#1890ff' }} value="Historia">Historia</Radio.Button>
-                            <Radio.Button style={{ background: 'none', color: '#1890ff' }} value="Comedia">Comedia</Radio.Button>
-                            <Radio.Button style={{ background: 'none', color: '#1890ff' }} value="Romance">Drama</Radio.Button>
-                            <Radio.Button style={{ background: 'none', color: '#1890ff' }} value="Infantil">Infantil</Radio.Button>
-                            <Radio.Button style={{ background: 'none', color: '#1890ff' }} value="Terror">Terror</Radio.Button>
-                            <Radio.Button style={{ background: 'none', color: '#1890ff' }} value="Thriller">Thriller</Radio.Button>
-                            <Radio.Button style={{ background: 'none', color: '#1890ff' }} value="Familiar">Familiar</Radio.Button>
-                            <Radio.Button style={{ background: 'none', color: '#1890ff' }} value="Aventura">Aventura</Radio.Button>
-                            <Radio.Button style={{ background: 'none', color: '#1890ff' }} value="Animación">Animación</Radio.Button>
-                            <Radio.Button style={{ background: 'none', color: '#1890ff' }} value="Crimen">Crimen</Radio.Button>
-                            <Radio.Button style={{ background: 'none', color: '#1890ff' }} value="Fantasía">Drama</Radio.Button>
-                            <Radio.Button style={{ background: 'none', color: '#1890ff' }} value="Misterio">Drama</Radio.Button>
-                        </Radio.Group>
+                        <Segmented style={{ background: 'none', color: 'white' }} onChange={value => this.filtrarPor(value)} options={['Todos', 'Acción', 'Historia', 'Superhéroes', 'Drama', 'Ciencia Ficción', 'Comedia', 'Romance', 'Infantil', 'Terror', 'Thriller', 'Familiar', 'Aventura', 'Animación', 'Crimen', 'Fantasía', 'Misterio']}></Segmented>
                     </Col>
                 </Row>
                 <Row gutter={[32, 32]} >
@@ -193,7 +172,7 @@ class Sesiones extends React.Component {
                                             </Row>
                                             <Row>
                                             </Row>
-                                            <Row gutter={[16, 16]}>
+                                            <Row gutter={[8, 8]}>
                                                 <Col span={24}>
                                                     <Card style={{ background: '#001529', color: "white" }} bordered={false} >
                                                         {sesionesArray
@@ -203,13 +182,11 @@ class Sesiones extends React.Component {
                                                                     .map(sesion_dia => {
                                                                         const gridStyle = {
                                                                             textAlign: 'center',
-                                                                            backgroundColor: '#001529',
-                                                                            border: 'none',
-                                                                            margin: '0.5em'
+                                                                            backgroundColor: '#001529'
                                                                         };
                                                                         return (
 
-                                                                            <Card.Grid style={gridStyle}>
+                                                                            <Card.Grid className='myCardGrid' style={gridStyle}>
                                                                                 <Link to={"/sesion/" + sesion_dia.id}>
                                                                                     <div>
                                                                                         <h2 className='title2'>{sesion_dia.hora}</h2>

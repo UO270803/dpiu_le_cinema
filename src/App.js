@@ -5,10 +5,12 @@ import Sesion from './Components/Sesion';
 import SignUpForm from './Components/SignUpForm';
 import Compras from './Components/Compras';
 import ProximosEstrenos from './Components/ProximosEstrenos';
+import Butacas from './Components/Paso_1';
 import { createClient } from '@supabase/supabase-js'
-import { Route, Routes, Link } from "react-router-dom"
+import { Route, Routes, Link, Navigate } from "react-router-dom"
 import 'antd/dist/antd.css';
 import { generate, presetDarkPalettes } from '@ant-design/colors';
+import withRouter from './Components/withRouter';
 
 
 import { Layout, Menu, notification } from 'antd';
@@ -17,6 +19,7 @@ import { Avatar, Typography } from 'antd';
 import { grey } from '@ant-design/colors';
 
 import { VideoCameraOutlined, ForwardOutlined, LoginOutlined, AimOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+
 
 class App extends React.Component {
 
@@ -72,6 +75,11 @@ class App extends React.Component {
       this.setState({
         user: data.user
       });
+
+      notification.success({
+        message: 'Login con éxito',
+      });
+      this.props.navigate("/entradas_cine");
     }
     else {
       notification.error({
@@ -162,4 +170,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withRouter(App);
